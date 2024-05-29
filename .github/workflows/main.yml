@@ -40,6 +40,8 @@ jobs:
 
     - name: Build application
       run: yarn dist
+      env:
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
     - name: Upload DMG artifact
       uses: actions/upload-artifact@v2
