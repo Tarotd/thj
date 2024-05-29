@@ -1,13 +1,21 @@
-name: Build macOS DMG
+name: Build
 
 on:
   push:
     branches:
-      - main  # 触发条件可以根据你的需求进行调整
+      - master  # 触发条件可以根据你的需求进行调整
 
 jobs:
   build:
-    runs-on: macOS-latest  # 使用最新版本的 macOS 环境
+    permissions:
+      contents: write # Allows this job to create releases
+      
+    strategy:
+      fail-fast: true
+      matrix:
+        os: [ macos-latest, ubuntu-latest, windows-latest ]
+        
+    runs-on: ${{ matrix.os }}
 
     steps:
     - name: Checkout repository
@@ -16,19 +24,25 @@ jobs:
     - name: Install Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '20'  # 选择 Node.js 版本
+        node-version: '20.10.0'  # 选择 Node.js 版本
+
+    - name: corepack enable
+      run: corepack enable
+
+    - name: Update yarn # 更新yarn
+      run: yarn set version stable
+
+    - name: set nodeLinker # 设置yarn使用node-modules
+      run: yarn config set nodeLinker node-modules
 
     - name: Install dependencies
-      run: npm install  # 安装项目依赖
+      run: yarn install --immutable  # 安装项目依赖
 
     - name: Build application
-      run: npm run build  # 编译应用程序
-
-    - name: Package application
-      run: npm run package  # 打包应用程序成 .dmg 文件
+      run: yarn dist # 编译应用程序
 
     - name: Upload DMG artifact
       uses: actions/upload-artifact@v2
       with:
-        name: dingxiaoxia-dmg
+        name: 鼎小夏-${{ matrix.os }}
         path: dist  # 替换成你的 .dmg 文件路径
