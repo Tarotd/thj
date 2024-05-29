@@ -7,28 +7,42 @@ on:
 
 jobs:
   build:
-    runs-on: macOS-latest  # 使用最新版本的 macOS 环境
+    permissions:
+      contents: write # Allows this job to create releases
+      
+    strategy:
+      fail-fast: true
+      matrix:
+        os: [ macos-latest, ubuntu-latest, windows-latest ]
+        
+    runs-on: ${{ matrix.os }}
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2  # 拉取代码
+      uses: actions/checkout@va5ac7e51b41094c92402da3b24376905380afc29  # 拉取代码
 
     - name: Install Node.js
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@v4
       with:
-        node-version: '20'  # 选择 Node.js 版本
+        node-version: '20.10.0'  # 选择 Node.js 版本
+
+    - name: codepack enable
+      run: codepack enable
+
+    - name: Update yarn # 更新yarn
+      run: yarn set version stable
+
+    - name: set nodeLinker # 设置yarn使用node-modules
+      run: yarn config set nodeLinker node-modules
 
     - name: Install dependencies
-      run: npm install  # 安装项目依赖
+      run: yarn install  # 安装项目依赖
 
     - name: Build application
-      run: npm run build  # 编译应用程序
-
-    - name: Package application
-      run: npm run package  # 打包应用程序成 .dmg 文件
+      run: yarn dist # 编译应用程序
 
     - name: Upload DMG artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
-        name: dingxiaoxia-dmg
+        name: 鼎小夏-${{ matrix.os }}
         path: dist  # 替换成你的 .dmg 文件路径
