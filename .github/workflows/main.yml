@@ -63,7 +63,7 @@ jobs:
 
     # Build application for other configurations
     - name: Build application
-      if: matrix.os != 'ubuntu-latest' && matrix.arch != 'arm64'
+      if: !(matrix.os == 'ubuntu-latest' && matrix.arch == 'arm64')
       run: yarn dist
       env:
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
