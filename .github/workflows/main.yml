@@ -54,7 +54,9 @@ jobs:
           apt-get install -y curl &&
           curl -sL https://deb.nodesource.com/setup_20.x | bash - &&
           apt-get install -y nodejs &&
-          npm install -g yarn &&
+          npm install -g corepack &&
+          corepack enable &&
+          corepack prepare yarn@4.2.2 --activate &&
           yarn install &&
           yarn dist
         "
