@@ -43,12 +43,6 @@ jobs:
       env:
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
-    - name: Upload DMG artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: 鼎小夏-${{ matrix.os }}
-        path: dist
-
     # Add this step to upload to GitHub Release
     - name: Upload to GitHub Release
       uses: softprops/action-gh-release@v1
