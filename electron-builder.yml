@@ -38,7 +38,7 @@ linux:
     - target: snap
       arch:
         - x64
-        - ia32
+        # - ia32
         - armv7l
         - arm64
     - target: deb
