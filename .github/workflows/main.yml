@@ -35,11 +35,8 @@ jobs:
     - name: set nodeLinker # 设置yarn使用node-modules
       run: yarn config set nodeLinker node-modules
 
-    - name: yarn cache clean
-      run: yarn cache clean
-
     - name: Install dependencies
-      run: yarn install  # 安装项目依赖
+      run: yarn install --immutable  # 安装项目依赖
 
     - name: Build application
       run: yarn dist # 编译应用程序
