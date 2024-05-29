@@ -3,7 +3,7 @@ name: Build macOS DMG
 on:
   push:
     branches:
-      - main  # 触发条件可以根据你的需求进行调整
+      - master  # 触发条件可以根据你的需求进行调整
 
 jobs:
   build:
