@@ -17,7 +17,7 @@ dmg:
     width: 540
     height: 380
 win:
-  icon: 'build/logo.png'
+  icon: 'build/logo.ico'
   target:
     - target: nsis
       arch:
