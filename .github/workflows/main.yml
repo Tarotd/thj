@@ -61,7 +61,7 @@ jobs:
 
     # Build application for other configurations
     - name: Build application
-      if: matrix.os != 'ubuntu-latest' || matrix.arch != 'arm64'
+      if: matrix.os != 'ubuntu-latest' && matrix.arch != 'arm64'
       run: yarn dist
       env:
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
@@ -70,7 +70,7 @@ jobs:
     - name: Upload to GitHub Release
       uses: softprops/action-gh-release@v1
       with:
-        files: dist/*
+        files: dist/*.${{ matrix.os }}.*
         token: ${{ secrets.GITHUB_TOKEN }}
         tag_name: v1.0.0
         name: 鼎小夏
