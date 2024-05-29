@@ -14,6 +14,7 @@ jobs:
       fail-fast: true
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
+        arch: [x64, ia32, arm64]
 
     runs-on: ${{ matrix.os }}
 
@@ -47,8 +48,8 @@ jobs:
     - name: Build application for arm64 using Docker
       if: matrix.os == 'ubuntu-latest' && matrix.arch == 'arm64'
       run: |
-        docker run --rm -v $(pwd):/project -w /project multiarch/qemu-user-static --reset -p yes
-        docker run --rm -v $(pwd):/project -w /project arm64v8/ubuntu:20.04 /bin/bash -c "
+        docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+        docker run --rm -v $(pwd):/workspace -w /workspace arm64v8/ubuntu:20.04 /bin/bash -c "
           apt-get update &&
           apt-get install -y curl &&
           curl -sL https://deb.nodesource.com/setup_20.x | bash - &&
@@ -58,6 +59,7 @@ jobs:
           yarn dist
         "
 
+    # Build application for other configurations
     - name: Build application
       if: matrix.os != 'ubuntu-latest' || matrix.arch != 'arm64'
       run: yarn dist
