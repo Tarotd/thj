@@ -47,11 +47,7 @@ jobs:
     - name: Upload to GitHub Release
       uses: softprops/action-gh-release@v1
       with:
-        files: |
-          dist/鼎小夏-1.0.0-arm64.dmg
-          dist/鼎小夏_Setup_1.0.0.exe
-          dist/dingxiaoxia_1.0.0_amd64.snap
-          dist/鼎小夏-1.0.0.AppImage
+        files: dist/*
         token: ${{ secrets.GITHUB_TOKEN }}
         tag_name: v1.0.0  # 替换成你创建的标签名
         name: 鼎小夏
