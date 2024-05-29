@@ -53,6 +53,6 @@ jobs:
     - name: Upload to GitHub Release
       uses: softprops/action-gh-release@v1
       with:
-        files: dist/*  # 指定要上传的文件路径
-      env:
-        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}  # 使用 secrets 中的 GH_TOKEN
+        files: dist/*
+        token: ${{ secrets.GITHUB_TOKEN }}
+        tag_name: v1.0.0  # 替换成你创建的标签名
