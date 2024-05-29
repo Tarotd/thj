@@ -1,0 +1,25 @@
+appId: "com.dxzn-src.oa"
+productName: "鼎小夏"
+mac:
+  icon: 'build/logo.icns'
+  target: 'dmg'
+# macOS
+dmg:
+  background: 'build/background.png'
+  icon: 'build/logo.icns'
+  title: '鼎小夏'
+  sign: false
+# Windows
+win: 
+  icon: 'build/logo.png'
+  target: 'nsis'
+# win下安装程序制作程序
+nsis:
+  oneClick: false
+  perMachine: true
+  installerIcon: 'build/logo.ico'
+  uninstallerIcon: 'build/logo.ico'
+  installerHeaderIcon: 'build/logo.ico'
+  allowToChangeInstallationDirectory: true
+  artifactName: ${productName}_Setup_${version}.${ext}
+  deleteAppDataOnUninstall: true

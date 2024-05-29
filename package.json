@@ -1,0 +1,18 @@
+{
+  "name": "dingxiaoxia",
+  "version": "1.0.0",
+  "description": "鼎小夏自动化办公系统",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "author": "山东鼎夏智能科技有限公司",
+  "license": "MIT",
+  "packageManager": "yarn@4.2.2",
+  "devDependencies": {
+    "electron": "^30.0.8",
+    "electron-builder": "^24.13.3"
+  }
+}
