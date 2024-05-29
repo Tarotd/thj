@@ -1,0 +1,34 @@
+name: Build macOS DMG
+
+on:
+  push:
+    branches:
+      - main  # 触发条件可以根据你的需求进行调整
+
+jobs:
+  build:
+    runs-on: macOS-latest  # 使用最新版本的 macOS 环境
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2  # 拉取代码
+
+    - name: Install Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '20'  # 选择 Node.js 版本
+
+    - name: Install dependencies
+      run: npm install  # 安装项目依赖
+
+    - name: Build application
+      run: npm run build  # 编译应用程序
+
+    - name: Package application
+      run: npm run package  # 打包应用程序成 .dmg 文件
+
+    - name: Upload DMG artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: dingxiaoxia-dmg
+        path: dist  # 替换成你的 .dmg 文件路径
