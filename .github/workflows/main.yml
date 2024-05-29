@@ -38,6 +38,11 @@ jobs:
     - name: Install dependencies
       run: yarn install
 
+    # Add conditional step to install Snapcraft only on Ubuntu
+    - name: Install Snapcraft
+      if: startsWith(matrix.os, 'ubuntu')
+      run: sudo snap install snapcraft --classic
+
     - name: Build application
       run: yarn dist
       env:
