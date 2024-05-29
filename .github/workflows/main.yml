@@ -41,7 +41,7 @@ jobs:
 
     # Add conditional step to install Snapcraft only on Ubuntu
     - name: Install Snapcraft
-      if: startsWith(matrix.os, 'ubuntu')
+      if: runner.os == 'Linux'
       run: sudo snap install snapcraft --classic
 
     # Only run this step on Ubuntu and only for arm64
@@ -63,7 +63,7 @@ jobs:
 
     # Build application for other configurations
     - name: Build application
-      if: !(matrix.os == 'ubuntu-latest' && matrix.arch == 'arm64')
+      if: "! (matrix.os == 'ubuntu-latest' && matrix.arch == 'arm64')"
       run: yarn dist
       env:
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
