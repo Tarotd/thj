@@ -3,12 +3,12 @@ name: Build
 on:
   push:
     branches:
-      - master  # 触发条件可以根据你的需求进行调整
+      - master
 
 jobs:
   build:
     permissions:
-      contents: write # Allows this job to create releases
+      contents: write
       
     strategy:
       fail-fast: true
@@ -19,30 +19,38 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2  # 拉取代码
+      uses: actions/checkout@v2
 
     - name: Install Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '20.10.0'  # 选择 Node.js 版本
+        node-version: '20.10.0'
 
-    - name: corepack enable
+    - name: Enable corepack
       run: corepack enable
 
-    - name: Update yarn # 更新yarn
+    - name: Update yarn
       run: yarn set version stable
 
-    - name: set nodeLinker # 设置yarn使用node-modules
+    - name: Set nodeLinker
       run: yarn config set nodeLinker node-modules
 
     - name: Install dependencies
-      run: yarn install --immutable  # 安装项目依赖
+      run: yarn install
 
     - name: Build application
-      run: yarn dist # 编译应用程序
+      run: yarn dist
 
     - name: Upload DMG artifact
       uses: actions/upload-artifact@v2
       with:
         name: 鼎小夏-${{ matrix.os }}
-        path: dist  # 替换成你的 .dmg 文件路径
+        path: dist
+
+    # Add this step to upload to GitHub Release
+    - name: Upload to GitHub Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: dist/*  # 指定要上传的文件路径
+      env:
+        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}  # 使用 secrets 中的 GH_TOKEN
