@@ -26,8 +26,8 @@ jobs:
       with:
         node-version: '20.10.0'  # 选择 Node.js 版本
 
-    - name: codepack enable
-      run: codepack enable
+    - name: corepack enable
+      run: corepack enable
 
     - name: Update yarn # 更新yarn
       run: yarn set version stable
