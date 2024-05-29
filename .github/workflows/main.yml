@@ -55,14 +55,12 @@ jobs:
         draft: false
         prerelease: false
 
-  build-linux:
+  build-linux-not-arm64:
     permissions:
       contents: write
 
     strategy:
       fail-fast: true
-      matrix:
-        arch: [x64, armv7l, arm64]
 
     runs-on: ubuntu-latest
 
@@ -71,35 +69,59 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Install Node.js
-      if: matrix.arch != 'arm64'
       uses: actions/setup-node@v2
       with:
         node-version: '20.10.0'
 
     - name: Enable corepack
-      if: matrix.arch != 'arm64'
       run: corepack enable
 
     - name: Update yarn
-      if: matrix.arch != 'arm64'
       run: yarn set version stable
 
     - name: Set nodeLinker
-      if: matrix.arch != 'arm64'
       run: yarn config set nodeLinker node-modules
 
     - name: Install dependencies
-      if: matrix.arch != 'arm64'
       run: yarn install
 
     # Add conditional step to install Snapcraft only on Ubuntu
     - name: Install Snapcraft
-      if: matrix.arch != 'arm64'
       run: sudo snap install snapcraft --classic
+
+    # Build application for other configurations
+    - name: Build application
+      run: yarn dist
+      env:
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        BUILD_TARGETS: "linux,x64,armv7l"
+
+    # Add this step to upload to GitHub Release
+    - name: Upload to GitHub Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: dist/*.*
+        token: ${{ secrets.GITHUB_TOKEN }}
+        tag_name: v1.0.0
+        name: 鼎小夏
+        draft: false
+        prerelease: false
+
+  build-linux-arm64:
+    permissions:
+      contents: write
+
+    strategy:
+      fail-fast: true
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
 
     # Only run this step on Ubuntu and only for arm64
     - name: Build application for arm64 using Docker
-      if: matrix.arch == 'arm64'
       run: |
         docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
         docker run --rm -v $(pwd):/workspace -w /workspace arm64v8/ubuntu:20.04 /bin/bash -c "
@@ -111,19 +133,14 @@ jobs:
           yarn install &&
           yarn dist
         "
-
-    # Build application for other configurations
-    - name: Build application
-      if: matrix.arch != 'arm64'
-      run: yarn dist --${{ matrix.arch }}
       env:
-        GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        BUILD_TARGETS: "linux,arm64"
 
     # Add this step to upload to GitHub Release
     - name: Upload to GitHub Release
       uses: softprops/action-gh-release@v1
       with:
-        files: dist/*${{ matrix.os }}.*
+        files: dist/*.*
         token: ${{ secrets.GITHUB_TOKEN }}
         tag_name: v1.0.0
         name: 鼎小夏
