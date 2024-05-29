@@ -1,4 +1,4 @@
-name: Build macOS DMG
+name: Build
 
 on:
   push:
@@ -19,10 +19,10 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@va5ac7e51b41094c92402da3b24376905380afc29  # 拉取代码
+      uses: actions/checkout@v2  # 拉取代码
 
     - name: Install Node.js
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v2
       with:
         node-version: '20.10.0'  # 选择 Node.js 版本
 
@@ -42,7 +42,7 @@ jobs:
       run: yarn dist # 编译应用程序
 
     - name: Upload DMG artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v2
       with:
         name: 鼎小夏-${{ matrix.os }}
         path: dist  # 替换成你的 .dmg 文件路径
