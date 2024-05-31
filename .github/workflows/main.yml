@@ -55,7 +55,7 @@ jobs:
       with:
         files: dist/*.@(exe|dmg|snap|deb|rpm|freebsd|tar.gz)
         token: ${{ secrets.GITHUB_TOKEN }}
-        tag_name: v1.0.0
+        tag_name: v1.0.1
         name: 鼎小夏
         draft: false
         prerelease: false
@@ -73,25 +73,39 @@ jobs:
   #   - name: Checkout repository
   #     uses: actions/checkout@v2
 
-  #   # Only run this step on Ubuntu and only for arm64
-  #   - name: Build application for arm64 using Docker
-  #     run: |
-  #       docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
-  #       docker run --rm -v $(pwd):/workspace -w /workspace arm64v8/ubuntu:20.04 /bin/bash -c "
-  #         apt-get update &&
-  #         apt-get install -y curl &&
-  #         curl -sL https://deb.nodesource.com/setup_20.x | bash - &&
-  #         apt-get install -y nodejs &&
-  #         npm install -g yarn &&
-  #         yarn install &&
-  #         yarn dist
-  #       "
+  #   - name: Install Node.js
+  #     uses: actions/setup-node@v2
+  #     with:
+  #       node-version: '20.10.0'
+
+  #   - name: Enable corepack
+  #     run: corepack enable
+
+  #   - name: Update yarn
+  #     run: yarn set version stable
+
+  #   - name: Set nodeLinker
+  #     run: yarn config set nodeLinker node-modules
+
+  #   - name: Install dependencies
+  #     run: yarn install
+
+  #   # Add conditional step to install Snapcraft only on Ubuntu
+  #   - name: Install Snapcraft
+  #     if: runner.os == 'Linux'
+  #     run: sudo snap install snapcraft --classic
+
+  #   # Build application for other configurations
+  #   - name: Build application
+  #     run: yarn dist
+  #     env:
+  #       GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
   #   # Add this step to upload to GitHub Release
   #   - name: Upload to GitHub Release
   #     uses: softprops/action-gh-release@v1
   #     with:
-  #       files: dist/*.*
+  #       files: dist/*.snap
   #       token: ${{ secrets.GITHUB_TOKEN }}
   #       tag_name: v1.0.0
   #       name: 鼎小夏
