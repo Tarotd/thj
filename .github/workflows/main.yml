@@ -124,9 +124,6 @@ jobs:
           yarn set version stable && \
           yarn config set nodeLinker node-modules && \
           yarn install && \
-          apt-get install -y --no-install-recommends snapd && \
-          systemctl disable snapd.service && \
-          snap install snapcraft --classic --ignore-running-systemd && \
           yarn dist"
         docker run --rm \
           -v $PWD/dist:/dist \
