@@ -129,7 +129,7 @@ jobs:
         docker run --rm \
           -v $PWD/dist:/dist \
           -w /workspace \
-          arm64v8/ubuntu:latest \
+          ubuntu:latest \
           bash -c "cp -r dist /dist"
           
 
