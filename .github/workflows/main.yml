@@ -126,7 +126,7 @@ jobs:
           yarn install && \
           apt-get install -y --no-install-recommends snapd && \
           systemctl disable snapd.service && \
-          snap install snapcraft --classic && \
+          snap install snapcraft --classic --ignore-running-systemd && \
           yarn dist"
         docker run --rm \
           -v $PWD/dist:/dist \
