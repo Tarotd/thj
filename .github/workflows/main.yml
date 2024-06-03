@@ -95,6 +95,10 @@ jobs:
       if: runner.os == 'Linux'
       run: sudo snap install snapcraft --classic
 
+
+    - name: Build Snap package
+      run: snapcraft --target-arch=armhf
+
     # Build application for other configurations
     - name: Build application
       run: yarn dist
