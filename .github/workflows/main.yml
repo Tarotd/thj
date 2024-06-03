@@ -100,18 +100,6 @@ jobs:
       with:
         platforms: arm64
 
-    - name: Install Docker Buildx
-      uses: docker/setup-buildx-action@v2
-
-    - name: Create and use a new Buildx builder
-      run: |
-        docker buildx create --name mybuilder --use
-        docker buildx inspect --bootstrap
-
-
-    - name: Build Docker image
-      run: docker buildx build --platform linux/arm64 -t user/my-arm-app:latest --load .
-
     - name: Run Snapcraft in Docker
       run: |
         docker run --rm --privileged \
@@ -121,7 +109,7 @@ jobs:
         docker run --rm \
           -v $PWD:/workspace \
           -w /workspace \
-          snapcore/snapcraft:stable \
+          ubuntu:latest \
           bash -c "apt-get update && apt-get install -y snapcraft && snapcraft --target-arch=arm64"
 
     # Build application for other configurations
