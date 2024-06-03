@@ -109,7 +109,7 @@ jobs:
         docker run --rm \
           -v $PWD:/workspace \
           -w /workspace \
-          ubuntu:latest \
+          arm64v8/ubuntu:latest \
           bash -c "apt-get update && uname -m"
 
     # Build application for other configurations
