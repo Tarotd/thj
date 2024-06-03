@@ -114,7 +114,7 @@ jobs:
           -e DEBIAN_FRONTEND=noninteractive \
           -v $PWD:/workspace \
           -w /workspace \
-          ubuntu@sha256:645f92f744c2414662a4fec7824969d037d193d8fdc420582d7a555da662b473 \
+          snapcore/snapcraft:stable \
           bash -c "apt-get update && uname -m &&\
           apt-get install -y curl && \
           curl -fsSL https://deb.nodesource.com/setup_20.x | bash -&& \
