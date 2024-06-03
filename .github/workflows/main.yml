@@ -125,6 +125,7 @@ jobs:
           yarn config set nodeLinker node-modules && \
           yarn install && \
           apt-get install -y snapd && \
+          ln -s /usr/lib/snapd/snapd /usr/sbin/snapd && \
           /usr/lib/snapd/snapd & \
           sleep 10 && \
           snap install snapcraft --classic && \
