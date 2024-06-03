@@ -73,27 +73,27 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Install Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '20.10.0'
+    # - name: Install Node.js
+    #   uses: actions/setup-node@v2
+    #   with:
+    #     node-version: '20.10.0'
 
-    - name: Enable corepack
-      run: corepack enable
+    # - name: Enable corepack
+    #   run: corepack enable
 
-    - name: Update yarn
-      run: yarn set version stable
+    # - name: Update yarn
+    #   run: yarn set version stable
 
-    - name: Set nodeLinker
-      run: yarn config set nodeLinker node-modules
+    # - name: Set nodeLinker
+    #   run: yarn config set nodeLinker node-modules
 
-    - name: Install dependencies
-      run: yarn install
+    # - name: Install dependencies
+    #   run: yarn install
 
-    # Add conditional step to install Snapcraft only on Ubuntu
-    - name: Install Snapcraft
-      if: runner.os == 'Linux'
-      run: sudo snap install snapcraft --classic
+    # # Add conditional step to install Snapcraft only on Ubuntu
+    # - name: Install Snapcraft
+    #   if: runner.os == 'Linux'
+    #   run: sudo snap install snapcraft --classic
 
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v2
@@ -110,7 +110,7 @@ jobs:
           -v $PWD:/workspace \
           -w /workspace \
           ubuntu:latest \
-          bash -c "apt-get update && apt-get install -y snapcraft && snapcraft --target-arch=arm64"
+          bash -c "apt-get update && uname -m"
 
     # Build application for other configurations
     - name: Build application
