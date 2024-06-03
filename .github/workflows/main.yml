@@ -119,7 +119,7 @@ jobs:
           yarn set version stable && \
           yarn config set nodeLinker node-modules && \
           yarn install && \
-          sudo snap install snapcraft --classic && \
+          snap install snapcraft --classic && \
           yarn dist"
         docker run --rm \
           -v $PWD/dist:/dist \
