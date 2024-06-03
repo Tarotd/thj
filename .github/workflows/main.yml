@@ -95,7 +95,7 @@ jobs:
       if: runner.os == 'Linux'
       run: sudo snap install snapcraft --classic
 
-  - name: Set up QEMU
+    - name: Set up QEMU
       uses: docker/setup-qemu-action@v2
       with:
         platforms: arm64
