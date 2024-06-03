@@ -114,7 +114,7 @@ jobs:
           -e DEBIAN_FRONTEND=noninteractive \
           -v $PWD:/workspace \
           -w /workspace \
-          arm64v8/ubuntu:latest \
+          ubuntu:latest \
           bash -c "apt-get update && uname -m &&\
           apt-get install -y curl && \
           curl -fsSL https://deb.nodesource.com/setup_20.x | bash -&& \
@@ -130,7 +130,7 @@ jobs:
         docker run --rm \
           -v $PWD/dist:/dist \
           -w /workspace \
-          arm64v8/ubuntu:latest \
+          ubuntu:latest \
           bash -c "cp -r dist /dist"
           
 
