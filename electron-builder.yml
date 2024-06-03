@@ -1,65 +1,9 @@
 appId: "com.dxzn-src.oa"
 productName: "鼎小夏"
 artifactName: Dingxiaoxia_Setup_${version}_${arch}.${ext}
-mac:
-  icon: 'build/logo.icns'
-  target:
-    - target: dmg
-      arch:
-        - x64
-        - arm64
-dmg:
-  background: 'build/background.png'
-  icon: 'build/logo.icns'
-  title: '鼎小夏'
-  sign: false
-  window:
-    width: 540
-    height: 380
-win:
-  icon: 'build/logo.png'
-  target:
-    - target: nsis
-      arch:
-        - x64
-        - ia32
-        - arm64
-nsis:
-  oneClick: false
-  perMachine: true
-  installerIcon: 'build/logo.ico'
-  uninstallerIcon: 'build/logo.ico'
-  installerHeaderIcon: 'build/logo.ico'
-  allowToChangeInstallationDirectory: true
-  deleteAppDataOnUninstall: true
 linux:
   icon: 'build/logo.png'
   target: 
     - target: snap
       arch:
-        - x64
-        - armv7l
-    - target: deb
-      arch:
-        - x64
-        - ia32
-        - armv7l
-        - arm64
-    - target: rpm
-      arch:
-        - x64
-        - ia32
-        - armv7l
-        - arm64
-    - target: freebsd
-      arch:
-        - x64
-        - ia32
-        - armv7l
-        - arm64
-    - target: tar.gz
-      arch:
-        - x64
-        - ia32
-        - armv7l
         - arm64

@@ -6,68 +6,16 @@ on:
       - master
 
 jobs:
-  build-other-platform:
-    permissions:
-      contents: write
-
-    strategy:
-      fail-fast: true
-      matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
-
-    runs-on: ${{ matrix.os }}
-
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-
-    - name: Install Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '20.10.0'
-
-    - name: Enable corepack
-      run: corepack enable
-
-    - name: Update yarn
-      run: yarn set version stable
-
-    - name: Set nodeLinker
-      run: yarn config set nodeLinker node-modules
-
-    - name: Install dependencies
-      run: yarn install
-
-    # Add conditional step to install Snapcraft only on Ubuntu
-    - name: Install Snapcraft
-      if: runner.os == 'Linux'
-      run: sudo snap install snapcraft --classic
-
-    # Build application for other configurations
-    - name: Build application
-      run: yarn dist
-      env:
-        GH_TOKEN: ${{ secrets.GH_TOKEN }}
-
-    # Add this step to upload to GitHub Release
-    - name: Upload to GitHub Release
-      uses: softprops/action-gh-release@v1
-      with:
-        files: dist/*.@(exe|dmg|snap|deb|rpm|freebsd|tar.gz)
-        token: ${{ secrets.GITHUB_TOKEN }}
-        tag_name: v1.0.1
-        name: 鼎小夏
-        draft: false
-        prerelease: false
-
-  # build-linux-arm64:
+  # build-other-platform:
   #   permissions:
   #     contents: write
 
   #   strategy:
   #     fail-fast: true
+  #     matrix:
+  #       os: [macos-latest, ubuntu-latest, windows-latest]
 
-  #   runs-on: ubuntu-latest
+  #   runs-on: ${{ matrix.os }}
 
   #   steps:
   #   - name: Checkout repository
@@ -105,9 +53,61 @@ jobs:
   #   - name: Upload to GitHub Release
   #     uses: softprops/action-gh-release@v1
   #     with:
-  #       files: dist/*.snap
+  #       files: dist/*.@(exe|dmg|snap|deb|rpm|freebsd|tar.gz)
   #       token: ${{ secrets.GITHUB_TOKEN }}
-  #       tag_name: v1.0.0
+  #       tag_name: v1.0.1
   #       name: 鼎小夏
   #       draft: false
   #       prerelease: false
+
+  build-linux-arm64:
+    permissions:
+      contents: write
+
+    strategy:
+      fail-fast: true
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Install Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '20.10.0'
+
+    - name: Enable corepack
+      run: corepack enable
+
+    - name: Update yarn
+      run: yarn set version stable
+
+    - name: Set nodeLinker
+      run: yarn config set nodeLinker node-modules
+
+    - name: Install dependencies
+      run: yarn install
+
+    # Add conditional step to install Snapcraft only on Ubuntu
+    - name: Install Snapcraft
+      if: runner.os == 'Linux'
+      run: sudo snap install snapcraft --classic
+
+    # Build application for other configurations
+    - name: Build application
+      run: yarn dist
+      env:
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
+    # Add this step to upload to GitHub Release
+    - name: Upload to GitHub Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: dist/*.snap
+        token: ${{ secrets.GITHUB_TOKEN }}
+        tag_name: v1.0.0
+        name: 鼎小夏
+        draft: false
+        prerelease: false
