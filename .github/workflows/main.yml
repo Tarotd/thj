@@ -125,7 +125,7 @@ jobs:
           yarn config set nodeLinker node-modules && \
           yarn install && \
           apt-get install -y snapd && \
-          snap install snapcraft --classic && \
+          sudo snap install snapcraft --classic && \
           yarn dist"
         docker run --rm \
           -v $PWD/dist:/dist \
