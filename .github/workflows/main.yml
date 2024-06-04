@@ -125,15 +125,12 @@ jobs:
           yarn config set nodeLinker node-modules && \
           yarn install && \
           apt-get install -y snapd && \
-          ln -s /usr/lib/snapd/snapd /usr/sbin/snapd && \
-          /usr/lib/snapd/snapd & \
-          sleep 10 && \
           snap install snapcraft --classic && \
           yarn dist"
         docker run --rm \
           -v $PWD/dist:/dist \
           -w /workspace \
-          ubuntu@sha256:645f92f744c2414662a4fec7824969d037d193d8fdc420582d7a555da662b473 \
+          arm64v8/ubuntu:20.04 \
           bash -c "cp -r dist /dist"
           
 
